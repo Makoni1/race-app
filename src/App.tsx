@@ -1,26 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Leaderboard from './components/Leaderboard/Leaderboard';
+import { User, Color } from './types';
 
-function App() {
+const App: React.FC = () => {
+  const users: User[] = [
+    { color: Color.RED, name: 'User 1', speed: 10, time: 1000 },
+    { color: Color.GREEN, name: 'User 2876866868688', speed: 8, time: 1200 },
+    { color: Color.BLUE, name: 'User 3', speed: 12, time: 900 },
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Гоночки</h1>
+      <Leaderboard users={users} />
     </div>
   );
-}
+};
 
 export default App;
+
