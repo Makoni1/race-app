@@ -17,7 +17,7 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
 
   return (
     <UserRowContainer 
-      isSelected={isSelected}
+      // isSelected={isSelected}
       onClick={() => setIsSelected(!isSelected)}
     >
       <UserHelmet color={user.color} />
