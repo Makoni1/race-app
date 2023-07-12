@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import UserRow from './UserRow/UserRow';
-import { LeaderboardContainer, LoaderContainer } from '../styles/leaderboard.styles';
+import {
+  LeaderboardContainer,
+  LoaderContainer,
+} from '../styles/leaderboard.styles';
 import { User } from '../../types';
 
 interface LeaderboardProps {
@@ -10,7 +13,32 @@ interface LeaderboardProps {
 const Leaderboard: React.FC<LeaderboardProps> = ({ users }) => {
   const [visibleUsers, setVisibleUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
   const leaderboardRef = useRef<HTMLDivElement>(null);
+  const batchSize = 50;
+
+  const loadMoreUsers = () => {
+    if (!isLoading) {
+      setIsLoading(true);
+      setTimeout(() => {
+        const startIndex = (pageNumber - 1) * batchSize;
+        const endIndex = pageNumber * batchSize;
+        const nextUsers = users.slice(startIndex, endIndex);
+        setVisibleUsers((prevUsers) => [...prevUsers, ...nextUsers]);
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        setIsLoading(false);
+      }, 1000); // имитация задержки при загрузке данных
+    }
+  };
+
+  useEffect(() => {
+    const initialUsers = users.slice(0, batchSize);
+    setVisibleUsers(initialUsers);
+  }, [users]);
+
+  useEffect(() => {
+    loadMoreUsers();
+  }, []);
 
   const handleScroll = () => {
     if (
@@ -21,29 +49,12 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ users }) => {
     }
   };
 
-  const loadMoreUsers = () => {
-    if (!isLoading) {
-      setIsLoading(true);
-      setTimeout(() => {
-        const startIndex = visibleUsers.length;
-        const endIndex = startIndex + 50;
-        const nextUsers = users.slice(startIndex, endIndex);
-        setVisibleUsers((prevUsers) => [...prevUsers, ...nextUsers]);
-        setIsLoading(false);
-      }, 1000); // имитация задержки при загрузке данных
-    }
-  };
-
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  useEffect(() => {
-    loadMoreUsers();
-  }, [users]);
 
   return (
     <LeaderboardContainer ref={leaderboardRef}>
