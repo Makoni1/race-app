@@ -10,8 +10,8 @@ const App: React.FC = () => {
   ];
 
   return (
-    <div>
-      <h1>Гоночки</h1>
+    <div style={{ height: '1000px', overflowY: 'scroll' }}>
+       <h1>Гоночки</h1>
       <Leaderboard users={users} />
     </div>
   );

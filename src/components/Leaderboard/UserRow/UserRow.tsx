@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { User } from '../../../types';
-import { UserName, UserSpeed, UserTime } from '../../styles/leaderboard.styles';
+import {
+  UserName,
+  UserSpeed,
+  UserTime,
+ 
+} from '../../styles/leaderboard.styles';
 
 import UserHelmet from './UserHelmet';
 import { UserRowContainer } from './styles/userRow.styles';

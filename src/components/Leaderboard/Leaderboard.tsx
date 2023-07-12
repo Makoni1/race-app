@@ -41,10 +41,12 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ users }) => {
   }, []);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 100
-    ) {
+    const windowHeight = window.innerHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const distanceFromBottom = scrollHeight - (scrollTop + windowHeight);
+
+    if (distanceFromBottom < 100 && !isLoading) {
       loadMoreUsers();
     }
   };
